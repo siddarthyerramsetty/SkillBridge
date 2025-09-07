@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillBridge - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --primary-dark: #E74C3C;
+            --secondary: #4ECDC4;
+            --tertiary: #FFD166;
+            --light: #FFF9F0;
+            --dark: #2D2A32;
+            --gray: #95A5A6;
+        }
+
+        body {
+            background: var(--light);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--tertiary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+        }
+
+        .user-stats {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.2) 100%);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .stat-card h4 {
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .progress-circle {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+        }
+
+        .progress-circle svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .progress-circle circle {
+            fill: none;
+            stroke-width: 8;
+        }
+
+        .progress-circle .background {
+            stroke: #f0f0f0;
+        }
+
+        .progress-circle .progress {
+            stroke: var(--primary);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.3s;
+        }
+
+        .progress-circle .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-card .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .course-card .difficulty {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 0.8rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: var(--light);
+        }
+
+        .course-card h5 {
+            margin-top: 20px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .course-card .progress {
+            height: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .course-card .progress-bar {
+            background: var(--primary);
+        }
+
+        .course-card .course-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        .course-card .course-meta i {
+            margin-right: 5px;
+        }
+
+        .recommended {
+            border-left: 4px solid var(--tertiary);
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .tab-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-tabs {
+            border: none;
+            margin-bottom: 15px;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--gray);
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .badge-learning-streak {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--tertiary) 100%);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: #f0f0f0;
+            color: var(--dark);
+            padding: 3px 10px;
+            border-radius: 15px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+
+        .certification-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .certification-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .certification-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--tertiary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+
+        .certification-icon i {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .chat-bot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .chat-bot:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+
+        .chat-message.user {
+            margin-left: auto;
+            background: #f0f0f0;
+            padding: 10px 15px;
+            border-radius: 15px 15px 0 15px;
+        }
+
+        .chat-message.ai {
+            background: var(--primary-dark);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 15px 15px 15px 0;
+        }
+
+        .chat-input {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-input .form-control {
+            border-radius: 20px;
+            padding-left: 15px;
+        }
+
+        .chat-input .btn {
+            border-radius: 20px;
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a href="index.html" class="logo">SkillBridge</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book me-1"></i> Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-certificate me-1"></i> Certifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="mcq_gen.html"><i class="fas fa-tasks me-1"></i> Take Test</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-friends me-1"></i> Community</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <span id="userName">User</span>
+                            <span class="badge-learning-streak"><i class="fas fa-fire me-1"></i> 7 Days</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="index.html"><i class="fas fa-sign-out-alt me-2"></i>
+                                    Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h2 class="mb-0">Welcome back, <span id="welcomeUserName">User</span>!</h2>
+                <p class="text-muted">Continue your learning journey today</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <button class="btn btn-primary"><i class="fas fa-plus me-2"></i> Add New Course</button>
+            </div>
+        </div>
+
+        <div class="user-stats mb-5">
+            <div class="row">
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <div class="stat-card">
+                        <i class="fas fa-code"></i>
+                        <h6>Selected Domain</h6>
+                        <h4 id="userDomain">Web Development</h4>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h6>Expertise Level</h6>
+                        <h4 id="userLevel">Intermediate</h4>
+                        <div class="progress mt-2" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <h6>Time Spent Learning</h6>
+                        <h4 id="timeSpent">12 hours</h4>
+                        <small class="text-success">+2 hrs this week</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="progress-circle">
+                            <svg viewBox="0 0 36 36">
+                                <circle class="background" cx="18" cy="18" r="14" stroke-dasharray="88"
+                                    stroke-dashoffset="0"></circle>
+                                <circle class="progress" cx="18" cy="18" r="14" stroke-dasharray="88"
+                                    stroke-dashoffset="13.2"></circle>
+                            </svg>
+                            <div class="text" id="userPerformance">85%</div>
+                        </div>
+                        <h6>Overall Performance</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <h3 class="section-title">Your Learning Path</h3>
+
+                <ul class="nav nav-tabs" id="courseTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="in-progress-tab" data-bs-toggle="tab"
+                            data-bs-target="#in-progress" type="button" role="tab">
+                            In Progress <span class="badge bg-primary ms-2">3</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed"
+                            type="button" role="tab">
+                            Completed <span class="badge bg-success ms-2">2</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="bookmarked-tab" data-bs-toggle="tab" data-bs-target="#bookmarked"
+                            type="button" role="tab">
+                            Bookmarked <span class="badge bg-secondary ms-2">4</span>
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="courseTabContent">
+                    <div class="tab-pane fade show active" id="in-progress" role="tabpanel">
+                        <div id="inProgressCourses" class="row">
+                            <!-- In-progress courses will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="completed" role="tabpanel">
+                        <div id="completedCourses" class="row">
+                            <!-- Completed courses will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="bookmarked" role="tabpanel">
+                        <div id="bookmarkedCourses" class="row">
+                            <!-- Bookmarked courses will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title mt-5">Recommended For You</h3>
+                <div id="recommendedCourses" class="row">
+                    <!-- Recommended courses will be loaded here -->
+                </div>
+            </div>
+
+            <div class="col-lg-4 mt-5 mt-lg-0">
+                <h3 class="section-title">Your Progress</h3>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Weekly Learning Goal</h5>
+                        <div class="progress mb-3" style="height: 10px;">
+                            <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <p class="mb-0">7 of 10 hours completed this week</p>
+                        <small class="text-muted">3 hours remaining to reach your goal</small>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Skills Progress</h5>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>HTML/CSS</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85"
+                                    aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>JavaScript</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70"
+                                    aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>React</span>
+                                <span>60%</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60"
+                                    aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Node.js</span>
+                                <span>40%</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40"
+                                    aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Certifications</h3>
+                <div id="certificationsList" class="row">
+                    <!-- Certifications will be loaded here -->
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Learning Insights</h5>
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <h6 class="mb-0">Best Learning Day</h6>
+                                <p class="text-muted mb-0">Wednesday</p>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Most Productive Time</h6>
+                                <p class="text-muted mb-0">8PM - 10PM</p>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-0">Streak</h6>
+                                <p class="text-muted mb-0">7 days</p>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Quiz Accuracy</h6>
+                                <p class="text-muted mb-0">78%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <a href="chatbot.html" class="chat-bot">
+        <i class="fas fa-robot"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        import {initializeApp} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import {getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+        import {getFirestore, doc, getDoc, setDoc, updateDoc} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBX-VqTsgU0wL1Bl3f44iraw9LOjtF7aE4",
+            authDomain: "login-21c99.firebaseapp.com",
+            projectId: "login-21c99",
+            storageBucket: "login-21c99.firebasestorage.app",
+            messagingSenderId: "903951003268",
+            appId: "1:903951003268:web:262456d503b3cd25bcdcd1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        async function getUserData(userId) {
+            const userDocRef = doc(db, "users", userId);
+            const userDoc = await getDoc(userDocRef);
+            
+            if (!userDoc.exists()) {
+                // Initialize new user data
+                const userData = {
+                    domain: "web-development",
+                    level: "Beginner",
+                    timeSpent: 0,
+                    performance: 0,
+                    inProgressCourses: [],
+                    completedCourses: [],
+                    bookmarkedCourses: []
+                };
+                await setDoc(userDocRef, userData);
+                return userData;
+            }
+            return userDoc.data();
+        }
+
+        async function updateUserProgress(userId, courseId, progress) {
+            const userDocRef = doc(db, "users", userId);
+            const userDoc = await getDoc(userDocRef);
+            const userData = userDoc.data();
+            
+            const courseIndex = userData.inProgressCourses.findIndex(c => c.id === courseId);
+            if (courseIndex !== -1) {
+                userData.inProgressCourses[courseIndex].progress = progress;
+                if (progress === 100) {
+                    const completedCourse = userData.inProgressCourses.splice(courseIndex, 1)[0];
+                    userData.completedCourses.push(completedCourse);
+                }
+                await updateDoc(userDocRef, userData);
+                loadCourses(); // Refresh the display
+            }
+        }
+
+        // Define courses data
+        const coursesData = {
+            inProgress: [
+                {
+                    id: 1,
+                    title: "Modern JavaScript Fundamentals",
+                    description: "Master the core concepts of JavaScript ES6+ with practical examples.",
+                    progress: 65,
+                    duration: "12 hours",
+                    rating: 4.8,
+                    difficulty: "Intermediate",
+                    skills: ["JavaScript", "ES6", "Async/Await"],
+                    lastAccessed: "Today"
+                },
+                {
+                    id: 2,
+                    title: "Responsive Web Design Masterclass",
+                    description: "Create beautiful responsive websites that work on any device.",
+                    progress: 42,
+                    duration: "10 hours",
+                    rating: 4.6,
+                    difficulty: "Intermediate",
+                    skills: ["HTML5", "CSS3", "Flexbox", "Grid"],
+                    lastAccessed: "Yesterday"
+                },
+                {
+                    id: 3,
+                    title: "React: Building Modern UIs",
+                    description: "Learn to build dynamic user interfaces with React and Redux.",
+                    progress: 28,
+                    duration: "15 hours",
+                    rating: 4.9,
+                    difficulty: "Advanced",
+                    skills: ["React", "JSX", "Hooks", "State Management"],
+                    lastAccessed: "3 days ago"
+                }
+            ],
+            completed: [
+                {
+                    id: 4,
+                    title: "HTML & CSS Basics",
+                    description: "The foundation of web development starts here.",
+                    progress: 100,
+                    duration: "8 hours",
+                    rating: 4.5,
+                    difficulty: "Beginner",
+                    skills: ["HTML", "CSS", "Web Fundamentals"],
+                    completedDate: "March 10, 2025"
+                },
+                {
+                    id: 5,
+                    title: "Git & GitHub for Developers",
+                    description: "Master version control and collaboration.",
+                    progress: 100,
+                    duration: "6 hours",
+                    rating: 4.7,
+                    difficulty: "Beginner",
+                    skills: ["Git", "GitHub", "Version Control"],
+                    completedDate: "February 28, 2025"
+                }
+            ],
+            recommended: [
+                {
+                    id: 6,
+                    title: "Node.js: Backend Development",
+                    description: "Build scalable server-side applications with Node.js and Express.",
+                    progress: 0,
+                    duration: "14 hours",
+                    rating: 4.8,
+                    difficulty: "Intermediate",
+                    skills: ["Node.js", "Express", "MongoDB", "REST APIs"],
+                    matchPercent: 95
+                },
+                {
+                    id: 7,
+                    title: "Full-Stack Web Development with MERN",
+                    description: "Combine React with Node.js, Express, and MongoDB to build full-stack applications.",
+                    progress: 0,
+                    duration: "20 hours",
+                    rating: 4.9,
+                    difficulty: "Advanced",
+                    skills: ["React", "Node.js", "Express", "MongoDB"],
+                    matchPercent: 92
+                },
+                {
+                    id: 8,
+                    title: "TypeScript for JavaScript Developers",
+                    description: "Add static typing to your JavaScript code with TypeScript.",
+                    progress: 0,
+                    duration: "8 hours",
+                    rating: 4.7,
+                    difficulty: "Intermediate",
+                    skills: ["TypeScript", "JavaScript", "Type Systems"],
+                    matchPercent: 89
+                }
+            ],
+            bookmarked: [
+                {
+                    id: 9,
+                    title: "CSS Animation Masterclass",
+                    description: "Create engaging web animations using CSS.",
+                    progress: 0,
+                    duration: "8 hours",
+                    rating: 4.6,
+                    difficulty: "Intermediate",
+                    skills: ["CSS", "Animations", "Transitions"]
+                },
+                {
+                    id: 10,
+                    title: "Progressive Web Apps",
+                    description: "Build responsive, reliable and installable web applications.",
+                    progress: 0,
+                    duration: "10 hours",
+                    rating: 4.8,
+                    difficulty: "Advanced",
+                    skills: ["Service Workers", "Web App Manifest", "Offline First"]
+                }
+            ]
+        };
+
+        // Define certifications data
+        const certificationsData = [
+            {
+                id: 1,
+                title: "Web Development Fundamentals",
+                issuer: "SkillBridge",
+                date: "February 2025",
+                icon: "fas fa-award",
+                status: "completed"
+            },
+            {
+                id: 2,
+                title: "JavaScript Proficiency",
+                issuer: "SkillBridge",
+                date: "April 2025 (In Progress)",
+                icon: "fas fa-certificate",
+                status: "in-progress",
+                progress: 65
+            }
+        ];
+
+        // Update user info
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userData = await getUserData(user.uid);
+                document.getElementById('userName').textContent = user.email;
+                document.getElementById('welcomeUserName').textContent = user.email.split('@')[0];
+                document.getElementById('userDomain').textContent = userData.domain;
+                document.getElementById('userLevel').textContent = userData.level;
+                document.getElementById('timeSpent').textContent = `${userData.timeSpent} hours`;
+                document.getElementById('userPerformance').textContent = `${userData.performance}%`;
+                
+                // Update progress circles
+                const circles = document.querySelectorAll('.progress');
+                circles.forEach(circle => {
+                    circle.style.strokeDashoffset = 88 - (88 * userData.performance / 100);
+                });
+                
+                loadCourses(userData);
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Load courses from data
+        function loadCourses(userData) {
+            // Load in-progress courses
+            const inProgressCourses = document.getElementById('inProgressCourses');
+            inProgressCourses.innerHTML = '';
+
+            coursesData.inProgress.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'col-md-6 col-lg-4 mb-4';
+                card.innerHTML = `
+                    <div class="course-card">
+                        <span class="badge bg-primary">In Progress</span>
+                        <span class="difficulty">${course.difficulty}</span>
+                        <h5>${course.title}</h5>
+                        <p>${course.description}</p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: ${course.progress}%" 
+                                 aria-valuenow="${course.progress}" aria-valuemin="0" aria-valuemax="100">
+                                ${course.progress}%
+                            </div>
+                        </div>
+                        <div class="course-meta mt-3">
+    <span><i class="fas fa-clock"></i> ${course.duration}</span>
+    <span><i class="fas fa-star"></i> ${course.rating}</span>
+    <span><i class="fas fa-history"></i> ${course.lastAccessed}</span>
+</div>
+<div class="mt-2">
+    ${course.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+</div>
+<div class="mt-3 text-end">
+    <button class="btn btn-sm btn-primary">Continue</button>
+</div>
+`;
+                inProgressCourses.appendChild(card);
+            });
+
+            // Load completed courses
+            const completedCourses = document.getElementById('completedCourses');
+            completedCourses.innerHTML = '';
+
+            coursesData.completed.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'col-md-6 col-lg-6 mb-4';
+                card.innerHTML = `
+                    <div class="course-card">
+                        <span class="badge bg-success">Completed</span>
+                        <span class="difficulty">${course.difficulty}</span>
+                        <h5>${course.title}</h5>
+                        <p>${course.description}</p>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" 
+                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                100%
+                            </div>
+                        </div>
+                        <div class="course-meta mt-3">
+                            <span><i class="fas fa-clock"></i> ${course.duration}</span>
+                            <span><i class="fas fa-star"></i> ${course.rating}</span>
+                            <span><i class="fas fa-calendar-check"></i> ${course.completedDate}</span>
+                        </div>
+                        <div class="mt-2">
+                            ${course.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        </div>
+                        <div class="mt-3 text-end">
+                            <button class="btn btn-sm btn-secondary">Review</button>
+                        </div>
+                    </div>
+                `;
+                completedCourses.appendChild(card);
+            });
+
+            // Load bookmarked courses
+            const bookmarkedCourses = document.getElementById('bookmarkedCourses');
+            bookmarkedCourses.innerHTML = '';
+
+            coursesData.bookmarked.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'col-md-6 col-lg-6 mb-4';
+                card.innerHTML = `
+                    <div class="course-card">
+                        <span class="badge bg-secondary">Bookmarked</span>
+                        <span class="difficulty">${course.difficulty}</span>
+                        <h5>${course.title}</h5>
+                        <p>${course.description}</p>
+                        <div class="course-meta mt-3">
+                            <span><i class="fas fa-clock"></i> ${course.duration}</span>
+                            <span><i class="fas fa-star"></i> ${course.rating}</span>
+                        </div>
+                        <div class="mt-2">
+                            ${course.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        </div>
+                        <div class="mt-3 text-end">
+                            <button class="btn btn-sm btn-outline-primary">Start</button>
+                            <button class="btn btn-sm btn-outline-secondary">Remove</button>
+                        </div>
+                    </div>
+                `;
+                bookmarkedCourses.appendChild(card);
+            });
+
+            // Load recommended courses
+            const recommendedCourses = document.getElementById('recommendedCourses');
+            recommendedCourses.innerHTML = '';
+
+            coursesData.recommended.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'col-md-6 col-lg-4 mb-4';
+                card.innerHTML = `
+                    <div class="course-card recommended">
+                        <span class="badge bg-warning text-dark">${course.matchPercent}% Match</span>
+                        <span class="difficulty">${course.difficulty}</span>
+                        <h5>${course.title}</h5>
+                        <p>${course.description}</p>
+                        <div class="course-meta mt-3">
+                            <span><i class="fas fa-clock"></i> ${course.duration}</span>
+                            <span><i class="fas fa-star"></i> ${course.rating}</span>
+                        </div>
+                        <div class="mt-2">
+                            ${course.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        </div>
+                        <div class="mt-3 text-end">
+                            <button class="btn btn-sm btn-outline-primary">Enroll</button>
+                            <button class="btn btn-sm btn-outline-secondary"><i class="far fa-bookmark"></i></button>
+                        </div>
+                    </div>
+                `;
+                recommendedCourses.appendChild(card);
+            });
+        }
+
+        // Load certifications
+        function loadCertifications() {
+            const certificationsList = document.getElementById('certificationsList');
+            certificationsList.innerHTML = '';
+
+            certificationsData.forEach(cert => {
+                const card = document.createElement('div');
+                card.className = 'col-md-6 mb-3';
+
+                if (cert.status === 'completed') {
+                    card.innerHTML = `
+                        <div class="certification-card text-center">
+                            <div class="certification-icon">
+                                <i class="${cert.icon}"></i>
+                            </div>
+                            <h5>${cert.title}</h5>
+                            <p class="mb-1 text-muted">${cert.issuer}</p>
+                            <p class="text-muted">Issued: ${cert.date}</p>
+                            <button class="btn btn-sm btn-outline-primary">View Certificate</button>
+                        </div>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <div class="certification-card text-center">
+                            <div class="certification-icon">
+                                <i class="${cert.icon}"></i>
+                            </div>
+                            <h5>${cert.title}</h5>
+                            <p class="mb-1 text-muted">${cert.issuer}</p>
+                            <p class="text-muted">Target: ${cert.date}</p>
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: ${cert.progress}%" 
+                                     aria-valuenow="${cert.progress}" aria-valuemin="0" aria-valuemax="100">
+                                    ${cert.progress}%
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-primary">Continue</button>
+                        </div>
+                    `;
+                }
+
+                certificationsList.appendChild(card);
+            });
+        }
+
+        // Toggle chat window
+        window.toggleChat = function () {
+            const chatWindow = document.getElementById('chatWindow');
+            if (chatWindow.style.display === 'flex') {
+                chatWindow.style.display = 'none';
+            } else {
+                chatWindow.style.display = 'flex';
+            }
+        }
+
+        // Send chat message
+        window.sendMessage = function () {
+            const userInput = document.getElementById('userInput');
+            const chatMessages = document.getElementById('chatMessages');
+
+            if (userInput.value.trim() === '') return;
+
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-message user';
+            userMessage.textContent = userInput.value;
+            chatMessages.appendChild(userMessage);
+
+            // Simulate AI response
+            setTimeout(() => {
+                const aiMessage = document.createElement('div');
+                aiMessage.className = 'chat-message ai';
+
+                // Simple responses based on keywords
+                const userText = userInput.value.toLowerCase();
+                if (userText.includes('hello') || userText.includes('hi')) {
+                    aiMessage.textContent = "Hello there! How can I help with your learning journey today?";
+                } else if (userText.includes('course') && (userText.includes('recommend') || userText.includes('suggest'))) {
+                    aiMessage.textContent = "Based on your progress, I recommend checking out 'Node.js: Backend Development' to complement your JavaScript skills!";
+                } else if (userText.includes('help')) {
+                    aiMessage.textContent = "I can help you find courses, provide learning tips, track your progress, or answer questions about web development. What would you like to know?";
+                } else {
+                    aiMessage.textContent = "Thanks for your message! I'll help you with that. Is there anything specific about your learning path you'd like to discuss?";
+                }
+
+                chatMessages.appendChild(aiMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 800);
+
+            userInput.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            loadCourses();
+            loadCertifications();
+        });
+    </script>
+</body>
+
+</html>

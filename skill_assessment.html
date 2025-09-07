@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillBridge - Skill Assessment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        /* Import global styles from index.html */
+        :root {
+            --primary: #FF6B6B;
+            --primary-dark: #E74C3C;
+            --secondary: #4ECDC4;
+            --tertiary: #FFD166;
+            --light: #FFF9F0;
+            --dark: #2D2A32;
+            --gray: #95A5A6;
+            --success: #7AE582;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --glass: rgba(45, 42, 50, 0.85);
+            --shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.15);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            --text-dark: #33373E;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .assessment-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #question-container {
+            margin-top: 20px;
+        }
+
+        #question-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        #answers-container {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .answer-btn {
+            padding: 15px 20px;
+            background: var(--light);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            color: var(--text-dark);
+            text-align: left;
+        }
+
+        .answer-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--light);
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .domain-info {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="assessment-card">
+            <h1 id="domain-title">Skill Assessment</h1>
+            <div class="domain-info">
+                Domain: <span id="domain-name">Loading...</span> | 
+                Level: <span id="level-name">Loading...</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div id="question-container">
+                <p id="question-text">Loading questions...</p>
+                <div id="answers-container"></div>
+                <button id="next-question-btn" class="btn" style="display: none;">Next Question</button>
+            </div>
+        </div>
+    </div>
+<script type="module" src="skill_assessment.js"></script>
+</body>
+</html>
